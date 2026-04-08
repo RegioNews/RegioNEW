@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇷🇺 РегионМонитор | Дашборд новостей</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/russiaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+        <div class="loading-text">Загрузка дашборда...</div>
+        <div class="loading-progress" id="loadingProgress">Инициализация</div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo"><span>🇷🇺</span> РегионМонитор</div>
+            <div class="header-stats">
+                <div class="stat-badge">📰 Новостей: <span class="num" id="totalNews">0</span></div>
+                <div class="stat-badge">📡 Источников: <span class="num" id="totalSources">0</span></div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="search-box"><input type="text" id="searchInput" placeholder="Поиск..."></div>
+            <button class="refresh-btn" id="refreshBtn" onclick="refreshAll()"><span class="refresh-icon">🔄</span> Обновить</button>
+        </div>
+    </header>
+    <main class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Регионы</h3>
+                <div class="filter-tabs">
+                    <div class="filter-tab active" data-filter="all" onclick="filterRegions('all', this)">Все</div>
+                    <div class="filter-tab" data-filter="has-news" onclick="filterRegions('has-news', this)">С новостями</div>
+                </div>
+            </div>
+            <div class="region-list" id="regionList"></div>
+            <div class="last-updated" id="lastUpdated">Обновлено: —</div>
+        </aside>
+        <div class="map-area">
+            <div class="map-toolbar">
+                <h3>🗺️ Карта России</h3>
+                <div class="map-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--success)"></div>Есть новости</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--warning)"></div>Мало</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--text-muted)"></div>Нет</div>
+                </div>
+            </div>
+            <div id="mapdiv"></div>
+        </div>
+        <aside class="news-panel">
+            <div class="news-panel-header">
+                <h3 id="newsPanelTitle">📰 Все новости</h3>
+                <div class="news-source-tabs" id="sourceTabs">
+                    <div class="source-tab active" onclick="filterSource('all', this)">Все <span class="count" id="countAll">0</span></div>
+                    <div class="source-tab" onclick="filterSource('media', this)">📰 СМИ <span class="count" id="countMedia">0</span></div>
+                    <div class="source-tab" onclick="filterSource('gov', this)">🏛️ Гос <span class="count" id="countGov">0</span></div>
+                    <div class="source-tab" onclick="filterSource('tg', this)">✈️ TG <span class="count" id="countTg">0</span></div>
+                </div>
+            </div>
+            <div class="news-list" id="newsList"><div class="empty-state"><div class="icon">📡</div><h4>Загрузка...</h4></div></div>
+        </aside>
+    </main>
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" id="newsModal">
+            <h3 id="modalTitle"></h3>
+            <div class="meta" id="modalMeta"></div>
+            <div class="content" id="modalContent"></div>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
